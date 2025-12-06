@@ -15,7 +15,7 @@
 
         #header-area{
             background-color: black;
-            height: 6rem;
+            height: auto;
         }
         #header-content-wrapper{
             display: flex;
