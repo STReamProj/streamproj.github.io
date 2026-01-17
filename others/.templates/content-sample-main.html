@@ -1,0 +1,153 @@
+
+    <main id="content">
+        <!-- メインスライドショー -->
+        <div class="slideshow-container full-width" id="main-slideshow" data-controls="true">
+            <div class="slideshow-wrapper">
+                <div class="slide" style="background-color: var(--primary-blue);">
+                    <div class="slide-caption">Soft Tennis Global View</div>
+                </div>
+                <div class="slide" style="background-color: #f0f9ff;">
+                    <div class="slide-caption">Vision of STReam Project</div>
+                </div>
+                <div class="slide" style="background-color: #e0f2fe;">
+                    <div class="slide-caption">Future of Athletes</div>
+                </div>
+            </div>
+            <div class="slide-arrow arrow-prev" onclick="moveSlide('main-slideshow', -1)">❮</div>
+            <div class="slide-arrow arrow-next" onclick="moveSlide('main-slideshow', 1)">❯</div>
+            <div class="slide-progress"></div>
+            <div class="slideshow-dots"></div>
+        </div>
+
+        <section id="about-section">
+            <h1>Creating the Future of Soft Tennis</h1>
+            <p>ソフトテニスの世界普及とメディア化を目指す「STReam Project」。私たちは、競技の枠を超えた新しい価値を創造します。</p>
+            <a href="#" class="btn">プロジェクト詳細</a>
+        </section>
+
+        <!-- News セクション -->
+        <section id="news-section">
+            <h2>Latest News & Events</h2>
+            <div class="news-list">
+                <a href="#" class="news-item">
+                    <span class="news-date">2025.04.15</span>
+                    <span class="news-tag tag-event">Event</span>
+                    <span class="news-title">STReam Charity Event 開催決定！先行エントリー受付中</span>
+                </a>
+                <a href="#" class="news-item">
+                    <span class="news-date">2025.04.01</span>
+                    <span class="news-tag tag-info">Info</span>
+                    <span class="news-title">公式ウェブサイトをリニューアルしました</span>
+                </a>
+                <a href="#" class="news-item">
+                    <span class="news-date">2025.03.20</span>
+                    <span class="news-tag tag-media">Media</span>
+                    <span class="news-title">グローバルメディア「STReam Online」α版公開のお知らせ</span>
+                </a>
+            </div>
+            <div style="text-align: right;">
+                <a href="#" style="font-size: 0.9rem; font-weight: bold;">View All News →</a>
+            </div>
+        </section>
+
+        <section id="roadmap-section">
+            <h2>Roadmap</h2>
+            <p>ソフトテニスの未来を創るための、私たちの挑戦のステップです。</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-status status-done">Done</span>
+                    <div class="timeline-content">
+                        <p class="timeline-title">Foundation & Identity</p>
+                        <p class="timeline-desc">ウェブサイト、SNSアカウントの開設。プロジェクトを象徴するロゴの制作を完了しました。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-status status-doing">In Progress</span>
+                    <div class="timeline-content">
+                        <p class="timeline-title">Vision & Community</p>
+                        <p class="timeline-desc">ビジョンの公開とSNSでの発信。動画素材の収集および、志を共にする初期メンバーの集結を進めています。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-status status-todo">Next Step</span>
+                    <div class="timeline-content">
+                        <p class="timeline-title">STReam Charity Event</p>
+                        <p class="timeline-desc">チャリティー大会の開催。新ルールのテスト実施、活動資金の調達、および迫力ある動画素材の確保を同時に行います。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-status status-todo">Future</span>
+                    <div class="timeline-content">
+                        <p class="timeline-title">Global Launch</p>
+                        <p class="timeline-desc">法人格の取得。グローバルメディアとしての本格始動、および国際ソフトテニス連盟（ISTF）との連携を開始します。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-status status-todo">Future</span>
+                    <div class="timeline-content">
+                        <p class="timeline-title">Federation & Management</p>
+                        <p class="timeline-desc">ソフトテニス選手連盟の設立。大会運営とメディア管理が一体となった強固な体制を確立します。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>プロジェクト紹介</h2>
+            <div class="card-grid">
+                <a href="#" class="card">
+                    <div class="card-img"></div>
+                    <div class="card-body">
+                        <p class="card-title">新ルール・チャリティー</p>
+                        <p class="card-text">よりエキサイティングで観る人を魅了する、新しいルールへの挑戦。</p>
+                    </div>
+                </a>
+                <a href="#" class="card">
+                    <div class="card-img">[グローバルネットワークのイメージ画像]</div>
+                    <div class="card-body">
+                        <p class="card-title">グローバルメディア</p>
+                        <p class="card-text">ISTFと連携し、世界中へソフトテニスの魅力を多言語で発信。</p>
+                    </div>
+                </a>
+                <a href="#" class="card">
+                    <div class="card-img"></div>
+                    <div class="card-body">
+                        <p class="card-title">選手連盟の設立</p>
+                        <p class="card-text">選手の権利を守り、競技生活をサポートする新しい組織の形。</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- サブスライドショー (1枚のみ) -->
+        <section>
+            <h2>Gallery & Featured</h2>
+            <div class="slideshow-container" id="sub-slideshow">
+                <div class="slideshow-wrapper">
+                    <div class="slide" style="background-color: #f1f5f9;">
+                        <div class="slide-caption">Practice Scene & Focus</div>
+                    </div>
+                </div>
+                <div class="slide-arrow arrow-prev" onclick="moveSlide('sub-slideshow', -1)">❮</div>
+                <div class="slide-arrow arrow-next" onclick="moveSlide('sub-slideshow', 1)">❯</div>
+                <div class="slide-progress"></div>
+                <div class="slideshow-dots"></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>よくある質問</h2>
+            <div class="accordion">
+                <details class="section-ac">
+                    <summary>プロジェクトの目的は何ですか？</summary>
+                    <p>ソフトテニスの価値を再定義し、メディア化と世界的な普及を通じて、競技に関わるすべての人がより輝ける舞台を作ることです。</p>
+                </details>
+                <details class="section-ac">
+                    <summary>新ルールとはどのようなものですか？</summary>
+                    <p>観客がより楽しみやすく、メディア映えするようなスピード感と戦略性を高めたルールを検討しています。詳細はチャリティー大会にて公開予定です。</p>
+                </details>
+            </div>
+        </section>
+    </main>
+

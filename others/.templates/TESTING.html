@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STReam Project | Official Site</title>
+    <style>
+        /* 基本設定 */
+        :root {
+            --primary-blue: #e0f2fe; /* 淡い水色 */
+            --accent-blue: #0ea5e9;  /* 鮮やかな水色（アクセント用） */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text-main: #334155;
+            --text-dark: #0f172a;
+            --header-height: 70px; /* メガメニュー計算用に追加 */
+        }
+
+        /* オープニングロゴ画面のスタイル（追加） */
+        #opening-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
+
+        .opening-logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            letter-spacing: 4px;
+            animation: logo-fade-in 1.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes logo-fade-in {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        body.opening-active {
+            overflow: hidden; /* ロゴ表示中はスクロール禁止 */
+        }
+
+        body {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 20%);
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            transition: 0.3s ease;
+            color: var(--accent-blue);
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        /* ヘッダーエリア */
+        #header-area {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: var(--header-height); /* 高さを固定 */
+        }
+
+        #header-content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            height: 100%; /* 高さいっぱいに */
+        }
+
+        #site-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        #top-menu {
+            margin-left: auto;
+            height: 100%;
+        }
+
+        #top-menu-nav {
+            display: flex;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        /* ナビゲーションアイテムのコンテナ */
+        .nav-item {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            position: relative;
+        }
+
+        .nav-item > a {
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            position: relative;
+        }
+
+        .nav-item > a::after {
+            content: '';
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item > a:hover::after {
+            width: 100%;
+        }
+
+        /* メガメニュー本体 */
+        .mega-menu {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100vw;
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            padding: 3rem 0;
+        }
+
+        .nav-item:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mega-menu-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .mega-column h3 {
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 0.5rem;
+        }
+
+        .mega-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mega-column li {
+            margin-bottom: 1.2rem;
+        }
+
+        .mega-column a {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .mega-column a span {
+            display: block;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: normal;
+            margin-top: 4px;
+        }
+
+        .mega-column a:hover {
+            color: var(--accent-blue);
+            transform: translateX(5px);
+            opacity: 1;
+        }
+
+        /* スライドショーコンポーネント */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+        }
+
+        .slideshow-container.full-width {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            border-left: none;
+            border-right: none;
+        }
+
+        .slideshow-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            color: var(--text-dark);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .slide-caption {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--glass-border);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: 0.8s ease 0.3s;
+        }
+
+        /* コントロール類の表示・非表示 */
+        .hide-controls .slide-arrow,
+        .hide-controls .slideshow-dots,
+        .hide-controls .slide-progress {
+            display: none !important;
+        }
+
+        .slide-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            transition: 0.3s;
+            opacity: 0;
+        }
+
+        .slideshow-container:hover .slide-arrow {
+            opacity: 1;
+        }
+
+        .slide-arrow:hover {
+            background: #fff;
+            color: var(--accent-blue);
+        }
+
+        .arrow-prev { left: 20px; }
+        .arrow-next { right: 20px; }
+
+        .slide-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent-blue);
+            width: 0%;
+            z-index: 30;
+        }
+
+        .slideshow-dots {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--accent-blue);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .dot.active {
+            background: var(--accent-blue);
+            transform: scale(1.2);
+        }
+
+        /* News セクション */
+        .news-list {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .news-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .news-item:hover {
+            background: #fff;
+            transform: translateX(10px);
+            border-color: var(--accent-blue);
+        }
+
+        .news-date {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            min-width: 100px;
+        }
+
+        .news-tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .tag-info { background: #e0f2fe; color: #0369a1; }
+        .tag-event { background: #fef9c3; color: #854d0e; }
+        .tag-media { background: #f1f5f9; color: #475569; }
+
+        .news-title {
+            font-weight: 500;
+            color: var(--text-dark);
+            flex-grow: 1;
+        }
+
+        /* メインコンテンツ */
+        #content {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            position: relative;
+            display: inline-block;
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        h2::after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 150%;
+            height: 4px;
+            left: 0;
+            background: var(--accent-blue);
+            margin-top: 8px;
+        }
+
+        /* フォームコントロールのデザイン (追加部分) */
+        .form-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(14, 165, 233, 0.05);
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.05em;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid transparent;
+            border-bottom: 2px solid var(--primary-blue);
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .form-control:focus {
+            outline: none;
+            background: #fff;
+            border-bottom-color: var(--accent-blue);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+        }
+
+        /* Select カスタマイズ */
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230ea5e9'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2rem;
+            padding-right: 3rem;
+        }
+
+        /* Checkbox & Radio カスタマイズ */
+        .form-check-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding-top: 0.5rem;
+        }
+
+        .form-check-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            user-select: none;
+        }
+
+        .form-check-item input {
+            display: none;
+        }
+
+        .custom-check {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-blue);
+            border-radius: 4px;
+            margin-right: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            background: #fff;
+        }
+
+        .form-check-item input:checked + .custom-check {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .form-check-item input:checked + .custom-check::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Radio用円形 */
+        .custom-radio {
+            border-radius: 50%;
+        }
+
+        /* Submit Button 強化 */
+        .form-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--accent-blue), #38bdf8);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 1rem;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
+        }
+
+        .form-submit:active {
+            transform: translateY(0);
+        }
+
+        /* アコーディオン */
+        .accordion {
+            margin: 2rem 0;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+        }
+
+        .section-ac {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section-ac:last-child {
+            border-bottom: none;
+        }
+
+        .section-ac summary {
+            padding: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-ac summary:hover {
+            background-color: var(--primary-blue);
+        }
+
+        .section-ac p {
+            padding: 0 1rem 1rem 1rem;
+            margin: 0;
+            color: #64748b;
+        }
+
+        /* ボタン */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2.5rem;
+            background-color: var(--accent-blue);
+            color: white !important;
+            border-radius: 9999px;
+            font-weight: bold;
+            box-shadow: 0 4px 14px 0 rgba(14, 165, 233, 0.3);
+            margin: 1rem 0;
+        }
+
+        /* カードリンク - 振動防止対策済み */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            transition: 0.3s ease;
+            position: relative; 
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .card:hover {
+            transform: translateY(-8px); 
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover::before {
+            height: calc(100% + 8px); 
+        }
+
+        .card-img {
+            width: 100%;
+            height: 150px;
+            background-color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-blue);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-weight: bold;
+            margin: 0 0 0.5rem 0;
+        }
+
+        /* タイムライン */
+        .timeline {
+            margin: 3rem 0;
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-blue);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border: 3px solid var(--accent-blue);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .timeline-status {
+            display: inline-block;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .status-done { background: #dcfce7; color: #166534; }
+        .status-doing { background: #fef9c3; color: #854d0e; }
+        .status-todo { background: #f1f5f9; color: #475569; }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .timeline-desc {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* フッター */
+        #footer {
+            background: #f1f5f9;
+            padding: 4rem 2rem 2rem 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        #footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #footer-links-contents {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #footer-links-contents th {
+            text-align: left;
+            padding-bottom: 1rem;
+        }
+
+        #footer-links-contents td {
+            padding: 0.5rem 0;
+        }
+
+        #footer-links-contents a {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #cbd5e1;
+            margin: 2rem 0;
+        }
+
+        #footer-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .ai-credit {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.4;
+            margin-top: 0.5rem;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .mega-menu { display: none; }
+            #header-content-wrapper { flex-direction: column; height: auto; padding: 1rem; }
+            #top-menu { margin-top: 1rem; width: 100%; }
+            #top-menu-nav { justify-content: space-around; gap: 0.5rem; }
+            h2::after { width: 100%; }
+            .slideshow-container.full-width {
+                width: 100vw;
+                margin-left: calc(-50vw + 50%);
+            }
+            .slide-arrow { display: none; }
+            .news-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+            .news-date { min-width: auto; }
+            .form-container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body class="opening-active"> <!-- ロゴ表示中はスクロール禁止クラスを初期付与 -->
+
+    <!-- オープニングロゴ画面 (追加) -->
+    <div id="opening-overlay" style="display: none;">
+        <div class="opening-logo">
+            <!-- ここを <img> タグに置き換えることも可能 -->
+            STReam
+        </div>
+    </div>
+
+    <header id="header-area">
+        <div id="header-content-wrapper">
+            <div id="site-name">
+                <a href="#">
+                    <h1 id="site-title">STReam Project</h1>
+                </a>
+            </div>
+            <nav id="top-menu">
+                <div id="top-menu-nav">
+                    <div class="nav-item"><a href="#">Home</a></div>
+                    <div class="nav-item"><a href="#news-section">News</a></div>
+                    
+                    <!-- About メガメニュー実装部分 -->
+                    <div class="nav-item">
+                        <a href="#about-section">About ▾</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-column">
+                                    <h3>Project Vision</h3>
+                                    <ul>
+                                        <li><a href="#">STReamについて<span>私たちのミッションとコアバリュー</span></a></li>
+                                        <li><a href="#">ビジョン 2030<span>10年後のソフトテニスの未来予想図</span></a></li>
+                                        <li><a href="#">プロジェクトメンバー<span>志を共にするチームの紹介</span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column">
+                                    <h3>Core Initiatives</h3>
+                                    <ul>
+                                        <li><a href="#">新ルールの開発<span>観客を魅了する新しい競技フォーマット</span></a></li>
+                                        <li><a href="#">メディアプラットフォーム<span>世界へ届ける発信力の拠点構築</span></a></li>
+                                        <li><a href="#">選手連盟（Player Union）<span>アスリートの権利と未来を守る組織</span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column">
+                                    <h3>Resources</h3>
+                                    <ul>
+                                        <li><a href="#">プレスリリース<span>最新の公式発表および資料アーカイブ</span></a></li>
+                                        <li><a href="#">ブランドガイドライン<span>ロゴやフォントの利用規定について</span></a></li>
+                                        <li><a href="#">ロードマップ<span>これまでの歩みとこれからの挑戦</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-item"><a href="#roadmap-section">Roadmap</a></div>
+                    <div class="nav-item"><a href="#">Contact</a></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==========================================CONTENTS====================================================- -->
+    <main id="content">
+        <section id="contact-form-section">
+            <h1>Join the <span style="color: var(--accent-blue);">STReam.</span></h1>
+            <p>ソフトテニスの未来を共に創るパートナーやメンバーを募集しています。以下のフォームより、お気軽にお問い合わせください。</p>
+
+            <div class="form-container">
+                <form action="#" method="POST" onsubmit="event.preventDefault();">
+                    
+                    <!-- Text Input -->
+                    <div class="form-group">
+                        <label class="form-label" for="user-name">NAME / お名前</label>
+                        <input type="text" id="user-name" name="name" class="form-control" placeholder="例：ソフトテニス 太郎" required>
+                    </div>
+
+                    <!-- Email Input -->
+                    <div class="form-group">
+                        <label class="form-label" for="user-email">EMAIL / メールアドレス</label>
+                        <input type="email" id="user-email" name="email" class="form-control" placeholder="example@stream-project.com" required>
+                    </div>
+
+                    <!-- Select Control -->
+                    <div class="form-group">
+                        <label class="form-label" for="category">CATEGORY / お問い合わせ種別</label>
+                        <select id="category" name="category" class="form-control form-select">
+                            <option value="" disabled selected>選択してください</option>
+                            <option value="member">プロジェクト参加希望</option>
+                            <option value="partnership">企業間パートナーシップ</option>
+                            <option value="media">メディア取材依頼</option>
+                            <option value="other">その他のお問い合わせ</option>
+                        </select>
+                    </div>
+
+                    <!-- Radio Buttons -->
+                    <div class="form-group">
+                        <label class="form-label">POSITION / 現在の立場</label>
+                        <div class="form-check-group">
+                            <label class="form-check-item">
+                                <input type="radio" name="position" value="player">
+                                <span class="custom-check custom-radio"></span>
+                                選手 (Player)
+                            </label>
+                            <label class="form-check-item">
+                                <input type="radio" name="position" value="coach">
+                                <span class="custom-check custom-radio"></span>
+                                指導者 (Coach)
+                            </label>
+                            <label class="form-check-item">
+                                <input type="radio" name="position" value="fan">
+                                <span class="custom-check custom-radio"></span>
+                                ファン (Fan)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Checkboxes -->
+                    <div class="form-group">
+                        <label class="form-label">INTEREST / 興味のある分野（複数選択可）</label>
+                        <div class="form-check-group">
+                            <label class="form-check-item">
+                                <input type="checkbox" name="interest" value="rule">
+                                <span class="custom-check"></span>
+                                新ルールの開発
+                            </label>
+                            <label class="form-check-item">
+                                <input type="checkbox" name="interest" value="digital">
+                                <span class="custom-check"></span>
+                                デジタル配信
+                            </label>
+                            <label class="form-check-item">
+                                <input type="checkbox" name="interest" value="event">
+                                <span class="custom-check"></span>
+                                大会運営
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Textarea -->
+                    <div class="form-group">
+                        <label class="form-label" for="message">MESSAGE / お問い合わせ内容</label>
+                        <textarea id="message" name="message" class="form-control" rows="5" placeholder="ご質問やメッセージを自由に入力してください..."></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="form-submit">SEND MESSAGE / 送信する</button>
+
+                </form>
+            </div>
+        </section>
+    </main>
+    <!-- ======================================================================================================- -->
+
+    <footer id="footer">
+        <div id="footer-content">
+            <table id="footer-links-contents">
+                <thead>
+                    <tr>
+                        <th>STReam Project</th>
+                        <th>Links</th>
+                        <th>Legal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="#">About Vision</a></td>
+                        <td><a href="#">SNS (Twitter)</a></td>
+                        <td><a href="#">Privacy Policy</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Roadmap</a></td>
+                        <td><a href="#">Instagram</a></td>
+                        <td><a href="#">Terms of Service</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Join us</a></td>
+                        <td><a href="#">Contact</a></td>
+                        <td><a href="#">Copyright</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <div id="footer-bottom">
+                <div id="site-title" style="font-size: 1.2rem;">STReam</div>
+                <small id="copyright">© 2025 STReam Project, Cemlo All rights reserved.</small>
+                <p class="ai-credit">
+                    このウェブサイトは生成AIを活用してデザインされました。<br>STReamは、今後も信頼性と効率性を両立した生成AIの使い方を追求して参ります。
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- オープニング制御ロジック (追加) ---
+        function handleOpeningAnimation() {
+            const overlay = document.getElementById('opening-overlay');
+            const body = document.body;
+            
+            // リファラ（遷移元）を取得
+            const referrer = document.referrer;
+            const currentHostname = window.location.hostname;
+            
+            // 判定：リファラが空、もしくはホスト名が異なる場合に表示
+            let showOpening = false;
+            if (!referrer) {
+                showOpening = true; // 直接入力・ブックマーク
+            } else {
+                const referrerUrl = new URL(referrer);
+                if (referrerUrl.hostname !== currentHostname) {
+                    showOpening = true; // 別サイトからの流入
+                }
+            }
+
+            if (showOpening) {
+                overlay.style.display = 'flex';
+                // 3秒後にフェードアウト開始
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.visibility = 'hidden';
+                        body.classList.remove('opening-active');
+                    }, 800);
+                }, 2500);
+            } else {
+                // 同じドメイン内の場合は即座に非表示
+                overlay.style.display = 'none';
+                body.classList.remove('opening-active');
+            }
+        }
+
+        const state = {};
+
+        function initSlideshow(id) {
+            const container = document.getElementById(id);
+            if (!container) return;
+
+            const slides = container.querySelectorAll('.slide');
+            const slideCount = slides.length;
+            
+            const showControlsParam = container.getAttribute('data-controls') !== 'false';
+            const shouldShowControls = showControlsParam && slideCount > 1;
+
+            if (!shouldShowControls) {
+                container.classList.add('hide-controls');
+            }
+
+            const dotsContainer = container.querySelector('.slideshow-dots');
+            if (dotsContainer && shouldShowControls) {
+                dotsContainer.innerHTML = ''; 
+                for (let i = 0; i < slideCount; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot' + (i === 0 ? ' active' : '');
+                    dot.onclick = () => goToSlide(id, i);
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            const wrapper = container.querySelector('.slideshow-wrapper');
+            wrapper.style.width = (slideCount * 100) + '%';
+            slides.forEach(s => s.style.width = (100 / slideCount) + '%');
+
+            state[id] = {
+                current: 0,
+                count: slideCount,
+                timer: null,
+                progress: 0,
+                duration: 5000,
+                active: shouldShowControls
+            };
+
+            if (shouldShowControls) resetTimer(id);
+            updateVisuals(id);
+        }
+
+        function goToSlide(id, index) {
+            const s = state[id];
+            if (!s) return;
+            
+            s.current = (index + s.count) % s.count;
+            updateVisuals(id);
+            s.progress = 0;
+            if (s.active) resetTimer(id);
+        }
+
+        function updateVisuals(id) {
+            const s = state[id];
+            const container = document.getElementById(id);
+            const wrapper = container.querySelector('.slideshow-wrapper');
+            const dots = container.querySelectorAll('.dot');
+            const slides = container.querySelectorAll('.slide');
+            
+            const offset = s.current * (100 / s.count);
+            wrapper.style.transform = `translateX(-${offset}%)`;
+            
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === s.current));
+            
+            slides.forEach((slide, i) => {
+                const cap = slide.querySelector('.slide-caption');
+                if (cap) {
+                    if (i === s.current) {
+                        cap.style.opacity = '1';
+                        cap.style.transform = 'translateY(0)';
+                    } else {
+                        cap.style.opacity = '0';
+                        cap.style.transform = 'translateY(20px)';
+                    }
+                }
+            });
+        }
+
+        function moveSlide(id, step) {
+            if (state[id]) goToSlide(id, state[id].current + step);
+        }
+
+        function resetTimer(id) {
+            if (state[id].timer) clearInterval(state[id].timer);
+            state[id].timer = setInterval(() => {
+                const container = document.getElementById(id);
+                if (container && !container.matches(':hover')) {
+                    state[id].progress += 1;
+                    const bar = container.querySelector('.slide-progress');
+                    if (bar) bar.style.width = `${state[id].progress}%`;
+                    
+                    if (state[id].progress >= 100) {
+                        moveSlide(id, 1);
+                    }
+                }
+            }, state[id].duration / 100);
+        }
+
+        window.onload = function() {
+            // オープニングアニメーションの実行
+            handleOpeningAnimation();
+            
+            // スライドショーの初期化
+            document.querySelectorAll('.slideshow-container').forEach(el => initSlideshow(el.id));
+        };
+    </script>
+</body>
+</html>
