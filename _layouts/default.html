@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/Styles/default.css' | relative_url }}">
+</head>
+<body class="opening-active"> <!-- ロゴ表示中はスクロール禁止クラスを初期付与 -->
+
+    <!-- オープニングロゴ画面 (追加) -->
+    <!-- オープニングロゴ画面 (追加) -->
+    <div id="opening-overlay" style="display: none;">
+        <div class="opening-logo">
+            <!-- ここを <img> タグに置き換えることも可能 -->
+            STReam
+        </div>
+    </div>
+
+
+
+  {% include header.html %}
+
+  <main>
+    {{ content }}
+  </main>
+
+  {% include footer.html %}
+
+    <script src="{{ '/Scripts/default.js' | relative_url }}"></script>
+</body>
+</html>
