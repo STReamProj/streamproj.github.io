@@ -1,2 +1,5 @@
 title: STReam
 description: Jekyll
+
+exclude:
+  - others
