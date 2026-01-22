@@ -2,13 +2,13 @@
     <header id="header-area">
         <div id="header-content-wrapper">
             <div id="site-name">
-                <a href="#">
+                <a href="{{ '/index.html' | relative_url }}">
                     <h1 id="site-title">STReam Project</h1>
                 </a>
             </div>
             <nav id="top-menu">
                 <div id="top-menu-nav">
-                    <div class="nav-item"><a href="#">Home</a></div>
+                    <div class="nav-item"><a href="{{ '/' | relative_url }}">Home</a></div>
                     <div class="nav-item"><a href="{{ '/news.html' | relative_url }}">News</a></div>
                     
                     <!-- About メガメニュー実装部分 -->
